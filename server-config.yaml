@@ -1,0 +1,35 @@
+# combine different deployment into one file
+# not recommended
+apiVersion: apps/v1
+metadata:
+  name: server-deployment
+spec:
+  # deployment create replicas set
+  replicas: 3
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: server
+          image: kuangyu0801/multi-server
+          ports:
+            - containerPort: 5000
+---
+apiVersion: apps/v1
+kind: Service
+metadata: 
+  name: server-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: server
+  ports:
+  # service port exposed inside node
+    - port: 5000
+      # container port in pod
+      targetPort: 5000

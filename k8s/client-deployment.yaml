@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  # deployment create replicas set
+  replicas: 3
+  selector:
+    matchLabels:
+      component: web
+  # pod configuration
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:    
+      - name: client
+        # update image with command $kubectl set image deployment/client-deployment client=stephengrider/multi-client:v5
+        image: kuangyu0801/multi-client
+        ports:
+          - containerPort: 3000
+# eval $(minikube docker-env)
