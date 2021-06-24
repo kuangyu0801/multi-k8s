@@ -28,4 +28,12 @@ spec:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
               subPath: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                # generate secret with
+                # $kubectl create secret generic pgpassword --from-literal PGPASSWORD=1234abcd
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
 

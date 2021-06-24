@@ -18,3 +18,8 @@ spec:
       - name: worker
         # update image with command $kubectl set image deployment/client-deployment client=stephengrider/multi-client:v5
         image: kuangyu0801/multi-worker
+        env:
+          - name: REDIS_HOST
+            value: redis-cluster-ip-service
+          - name: REDIS_PORT
+            value: '6379'
