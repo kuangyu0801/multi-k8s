@@ -25,6 +25,28 @@ before_install:
   - gcloud container clusters get-credentials multi-cluster
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t kuangyu0801/react-test -f ./client/Dockerfile.dev ./client
+
 script:
   - docker run -e CI=true kuangyu0801/react-test npm test
 
+# Configure gcp for deployment in gcp console  
+  # 1. Set kubectl with current project
+    # gcloud config set project multi-k8s-317909
+    # gcloud config set compute/zone europe-west1-b
+    # gcloud container clusters get-credentials multi-cluster
+    # kubectl create secret generic pgpassword --from-literal PGPASSWORD=1234abcd
+  # 2. Install nginx with helm
+    # Install helm: ref https://helm.sh/docs/intro/install/
+      # curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+      # hmod 700 get_helm.sh
+      # ./get_helm.sh
+    # Install nginx: ref 
+      # helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+      # helm install my-release ingress-nginx/ingress-nginx
+
+deploy:
+  # Deploy using own script
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: feature-k8
