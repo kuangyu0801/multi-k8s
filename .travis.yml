@@ -26,10 +26,5 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t kuangyu0801/reat-test -f ./client/Dockerfile.dev ./client
 script:
-  - docker run -d CI=true kuangyu0801/react-test npm test
-deploy:
-  provider: script
-  # using own script to config deployment instead of using travis
-  script: bash ./deploy.sh
-  on:
-    branch: feature-k8
+  - docker run -e CI=true kuangyu0801/react-test npm test
+
