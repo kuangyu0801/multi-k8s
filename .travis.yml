@@ -1,7 +1,12 @@
 sudo: required
 services:
   - docker
-
+env:
+  global:
+    # setting environment variable for image tagging in deploy.sh
+    - SHA=$(git rev-parse HEAD)
+    # disable promt for gcloud CLI
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
 # using travis to encrypt json file
   # $ docker run -it -v $(pwd):/app ruby:2.4 sh
@@ -22,4 +27,9 @@ before_install:
   - docker build -t kuangyu0801/reat-test -f ./client/Dockerfile.dev ./client
 script:
   - docker run -d CI=true kuangyu0801/react-test npm test
-
+deploy:
+  provider: script
+  # using own script to config deployment instead of using travis
+  script: bash ./deploy.sh
+  on:
+    branch: feature-k8
