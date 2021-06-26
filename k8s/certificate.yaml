@@ -17,3 +17,4 @@ spec:
   # $ helm repo update
   # $ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.crds.yaml
   # $ helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.4.0
+  # let cert-manager to wailt for 10~15 min to get certificates
