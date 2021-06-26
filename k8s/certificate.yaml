@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kuangyu0801-codes-tls
+spec:
+  secretName: kuangyu0801-codes
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: kuangyu0801.codes
+  dnsNames:
+    - kuangyu0801.codes
+    - www.kuangyu0801.codes
+# install certificate manager on gcp ref: https://cert-manager.io/docs/installation/kubernetes/#installing-with-helm 
+  # $ kubectl create namespace cert-manager
+  # $ helm repo add jetstack https://charts.jetstack.io
+  # $ helm repo update
+  # $ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.crds.yaml
+  # $ helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.4.0
